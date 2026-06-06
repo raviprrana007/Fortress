@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Activity, Shield, Lock, Key, Copy, Download, Upload, Settings, Search } from 'lucide-react'
+import { Activity, Shield, Lock, Key, Copy, Download, Upload, Settings, Search, ChevronLeft } from 'lucide-react'
 import { activityLogRepository } from '@/db/repository'
 import type { ActivityLog } from '@/types'
 import { formatRelativeTime } from '@/utils'
 import { cn } from '@/utils'
+import { useUIStore } from '@/store/ui.store'
 
 const ACTION_ICONS: Record<string, React.ReactNode> = {
   vault_unlocked: <Lock className="h-3.5 w-3.5 text-emerald-400" />,
@@ -41,6 +42,7 @@ export function ActivityLogPanel() {
   const [logs, setLogs] = useState<ActivityLog[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('')
+  const { setActivePanel } = useUIStore()
 
   useEffect(() => {
     activityLogRepository.getRecent(90).then(data => {
@@ -66,12 +68,20 @@ export function ActivityLogPanel() {
     <div className="flex flex-col h-full">
       <div className="px-6 py-4 border-b border-border/50">
         <div className="flex items-center justify-between mb-3">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Activity Log
-            </h2>
-            <p className="text-sm text-muted-foreground">Last 90 days of vault activity</p>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setActivePanel('list')} 
+              className="md:hidden p-2 -ml-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div>
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                Activity Log
+              </h2>
+              <p className="text-sm text-muted-foreground">Last 90 days of vault activity</p>
+            </div>
           </div>
           <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">{logs.length} events</span>
         </div>

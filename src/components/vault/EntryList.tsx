@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search, SortAsc, SortDesc, Filter, Star, Grid3X3, List as ListIcon,
-  Plus, Loader2
+  Plus, Loader2, Menu
 } from 'lucide-react'
 import { useVaultStore } from '@/store/vault.store'
 import { useUIStore } from '@/store/ui.store'
@@ -15,7 +15,7 @@ export function EntryList() {
     filteredEntries, selectedEntryId, setSelectedEntry,
     filter, setFilter, isSaving,
   } = useVaultStore()
-  const { openModal, setActivePanel } = useUIStore()
+  const { openModal, setActivePanel, toggleSidebar } = useUIStore()
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,25 +35,34 @@ export function EntryList() {
     <div className="flex flex-col h-full bg-background/50">
       {/* Search & Controls */}
       <div className="p-4 border-b border-border/50 space-y-3">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-          <input
-            id="vault-search"
-            type="search"
-            placeholder="Search vault… (Ctrl+K)"
-            value={filter.search}
-            onChange={handleSearch}
-            className={cn(
-              'flex h-9 w-full rounded-lg border border-input bg-muted/30 pl-9 pr-3 py-2 text-sm',
-              'text-foreground placeholder:text-muted-foreground/60 transition-colors',
-              'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50',
+        <div className="flex gap-2 relative">
+          <button 
+             onClick={toggleSidebar} 
+             className="md:hidden flex items-center justify-center p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+             title="Open Menu"
+          >
+             <Menu className="h-5 w-5" />
+          </button>
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <input
+              id="vault-search"
+              type="search"
+              placeholder="Search vault… (Ctrl+K)"
+              value={filter.search}
+              onChange={handleSearch}
+              className={cn(
+                'flex h-9 w-full rounded-lg border border-input bg-muted/30 pl-9 pr-3 py-2 text-sm',
+                'text-foreground placeholder:text-muted-foreground/60 transition-colors',
+                'focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50',
+              )}
+            />
+            {isSaving && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <Loader2 className="h-3.5 w-3.5 text-muted-foreground animate-spin" />
+              </div>
             )}
-          />
-          {isSaving && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-              <Loader2 className="h-3.5 w-3.5 text-muted-foreground animate-spin" />
-            </div>
-          )}
+          </div>
         </div>
 
         <div className="flex items-center gap-2">

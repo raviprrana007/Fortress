@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Edit2, Trash2, Star, Copy, ExternalLink, Globe, User, Mail, FileText,
   Tag, Clock, Shield, Check, Eye, EyeOff, ChevronDown, ChevronUp,
-  Key, CreditCard, Hash
+  Key, CreditCard, Hash, ChevronLeft
 } from 'lucide-react'
 import { useVaultStore } from '@/store/vault.store'
 import { useUIStore } from '@/store/ui.store'
@@ -48,6 +48,12 @@ export function EntryDetail() {
     >
       {/* Header */}
       <div className="px-6 py-4 border-b border-border/50 flex items-start gap-3">
+        <button 
+          onClick={() => setActivePanel('list')} 
+          className="md:hidden p-2 -ml-3 mr-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
         <div className="w-12 h-12 rounded-xl bg-muted border border-border/50 flex items-center justify-center text-2xl shrink-0">
           {getCategoryIcon(entry.category)}
         </div>

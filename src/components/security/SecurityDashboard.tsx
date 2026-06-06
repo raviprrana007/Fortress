@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Shield, AlertTriangle, RefreshCw, ExternalLink,
-  ChevronRight, Eye, Key, Clock, Repeat2
+  ChevronRight, Eye, Key, Clock, Repeat2, ChevronLeft
 } from 'lucide-react'
 import { useVaultStore } from '@/store/vault.store'
 import { useUIStore } from '@/store/ui.store'
@@ -58,10 +58,18 @@ export function SecurityDashboard() {
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border/50">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground">Security Dashboard</h2>
-            <p className="text-sm text-muted-foreground">Monitor vault health and password security</p>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setActivePanel('list')} 
+              className="md:hidden p-2 -ml-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div>
+              <h2 className="text-lg font-semibold text-foreground">Security Dashboard</h2>
+              <p className="text-sm text-muted-foreground">Monitor vault health and password security</p>
+            </div>
           </div>
           <Button
             variant="outline"

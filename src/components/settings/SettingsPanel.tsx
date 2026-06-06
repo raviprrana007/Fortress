@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Settings, Moon, Sun, Monitor, Lock, Timer, Clipboard, Eye, Download, Fingerprint, Trash2 } from 'lucide-react'
+import { Settings, Moon, Sun, Monitor, Lock, Timer, Clipboard, Eye, Download, Fingerprint, Trash2, ChevronLeft } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
 import { useUIStore } from '@/store/ui.store'
 import { isWebAuthnSupported, registerBiometric } from '@/crypto/webauthn'
@@ -9,7 +9,7 @@ import { cn } from '@/utils'
 
 export function SettingsPanel() {
   const { account, updateAccount } = useAuthStore()
-  const { toast, setTheme, theme } = useUIStore()
+  const { toast, setTheme, theme, setActivePanel } = useUIStore()
   const [isEnrollingBiometric, setIsEnrollingBiometric] = useState(false)
 
   if (!account) return null
@@ -44,12 +44,20 @@ export function SettingsPanel() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="px-6 py-4 border-b border-border/50">
-        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-          <Settings className="h-5 w-5 text-primary" />
-          Settings
-        </h2>
-        <p className="text-sm text-muted-foreground">Customize your Fortress experience</p>
+      <div className="px-6 py-4 border-b border-border/50 flex items-center gap-3">
+        <button 
+          onClick={() => setActivePanel('list')} 
+          className="md:hidden p-2 -ml-3 mr-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <div>
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <Settings className="h-5 w-5 text-primary" />
+            Settings
+          </h2>
+          <p className="text-sm text-muted-foreground">Customize your Fortress experience</p>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8">

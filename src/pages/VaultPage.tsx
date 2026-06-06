@@ -11,13 +11,26 @@ import { useAutoLock } from '@/hooks/useAutoLock'
 import { cn } from '@/utils'
 
 export function VaultPage() {
-  const { activePanel } = useUIStore()
+  const { activePanel, sidebarCollapsed, setSidebarCollapsed } = useUIStore()
 
   useAutoLock()
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <Sidebar />
+    <div className="flex h-screen overflow-hidden bg-background relative">
+      <div className={cn(
+        "absolute inset-y-0 left-0 z-50 md:relative md:flex shrink-0 transition-transform duration-300",
+        sidebarCollapsed ? "-translate-x-full md:translate-x-0" : "translate-x-0"
+      )}>
+        <Sidebar />
+      </div>
+      
+      {/* Mobile backdrop for sidebar */}
+      {!sidebarCollapsed && (
+         <div 
+           className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden" 
+           onClick={() => setSidebarCollapsed(true)} 
+         />
+      )}
 
       <div className="flex flex-1 overflow-hidden min-w-0">
         {/* Entry list — always visible when on list/detail panel */}
@@ -28,7 +41,10 @@ export function VaultPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.15 }}
-              className="w-[280px] shrink-0 border-r border-border/50 overflow-hidden"
+              className={cn(
+                "w-full md:w-[280px] shrink-0 border-r border-border/50 overflow-hidden",
+                activePanel === 'detail' ? 'hidden md:block' : 'block'
+              )}
             >
               <EntryList />
             </motion.div>
@@ -36,7 +52,10 @@ export function VaultPage() {
         </AnimatePresence>
 
         {/* Main content area */}
-        <div className="flex-1 overflow-hidden min-w-0">
+        <div className={cn(
+          "flex-1 overflow-hidden min-w-0",
+          activePanel === 'list' ? 'hidden md:block' : 'block'
+        )}>
           <AnimatePresence mode="wait">
             {activePanel === 'detail' && (
               <motion.div key="detail" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full overflow-auto">
