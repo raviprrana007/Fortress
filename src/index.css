@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 213 31% 91%;
+    --card: 222 47% 13%;
+    --card-foreground: 213 31% 91%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 220 75% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 47% 18%;
+    --secondary-foreground: 213 31% 85%;
+    --muted: 222 47% 16%;
+    --muted-foreground: 215 16% 55%;
+    --accent: 220 75% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 47% 18%;
+    --input: 222 47% 18%;
+    --ring: 220 75% 58%;
+    --radius: 0.625rem;
+
+    /* Custom */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 60px;
+    --topbar-height: 56px;
+    --detail-panel-width: 380px;
+  }
+
+  .light {
+    --background: 220 20% 97%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 220 75% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 93%;
+    --secondary-foreground: 222 47% 20%;
+    --muted: 220 14% 93%;
+    --muted-foreground: 215 16% 45%;
+    --accent: 220 75% 52%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+    --ring: 220 75% 52%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/40;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+/* ─── Component Utilities ────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Glass morphism card */
+  .glass-card {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: var(--tw-shadow-glass, 0 4px 24px rgba(0,0,0,0.2));
+  }
+
+  /* Elevated card with hover */
+  .interactive-card {
+    @apply glass-card rounded-xl transition-all duration-200;
+    @apply hover:border-primary/30 hover:shadow-glow-sm cursor-pointer;
+  }
+
+  /* Sidebar navigation item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium;
+    @apply text-muted-foreground transition-all duration-150 cursor-pointer;
+    @apply hover:text-foreground hover:bg-secondary/80;
+  }
+
+  .nav-item.active {
+    @apply text-foreground bg-secondary;
+  }
+
+  /* Strength indicator bar */
+  .strength-bar {
+    @apply h-1 rounded-full transition-all duration-500;
+  }
+
+  /* Password field with monospace */
+  .password-field {
+    @apply font-mono tracking-widest text-sm;
+    letter-spacing: 0.2em;
+  }
+
+  /* Tag pill */
+  .tag-pill {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium;
+    @apply bg-secondary text-secondary-foreground border border-border/50;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(220, 80%, 65%), hsl(260, 80%, 70%));
+  }
+
+  /* Focus ring override */
+  .focus-ring {
+    @apply outline-none ring-2 ring-primary/50 ring-offset-1 ring-offset-background;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply rounded-md bg-muted animate-pulse;
+  }
+
+  /* Section header */
+  .section-header {
+    @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground px-3 py-2;
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+
+  /* Custom gradient backgrounds */
+  .bg-vault-gradient {
+    background: linear-gradient(135deg,
+      hsl(222, 47%, 9%) 0%,
+      hsl(220, 40%, 12%) 50%,
+      hsl(222, 47%, 9%) 100%);
+  }
+
+  .bg-auth-gradient {
+    background:
+      radial-gradient(ellipse at 20% 50%, hsl(220, 75%, 20%, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, hsl(260, 75%, 15%, 0.2) 0%, transparent 40%),
+      hsl(222, 47%, 8%);
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px -4px hsl(var(--primary) / 0.4);
+  }
+}

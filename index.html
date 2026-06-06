@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vault-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="description" content="Fortress — Enterprise-grade encrypted password manager with zero-knowledge architecture. Your passwords, protected by AES-256-GCM encryption." />
+    <meta name="keywords" content="password manager, encrypted vault, secure passwords, enterprise security" />
+    <meta property="og:title" content="Fortress — Password Manager" />
+    <meta property="og:description" content="Enterprise-grade encrypted password manager with zero-knowledge architecture." />
+    <meta property="og:type" content="website" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Argon2id — loaded as optional enhancement for stronger KDF -->
+    <!-- Falls back to PBKDF2-SHA256 (600k iterations) if unavailable -->
+    <script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/dist/argon2-bundled.min.js" async></script>
+    <title>Fortress — Password Manager</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
